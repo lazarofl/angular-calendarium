@@ -1,0 +1,29 @@
+{
+  "name": "angular-calendarium",
+  "version": "0.1.0",
+  "description": "A simple calendar component using angular directives",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lazarofl/angular-calendarium.git"
+  },
+  "keywords": [
+    "angular",
+    "calendar",
+    "directive"
+  ],
+  "author": "lazarofl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lazarofl/angular-calendarium/issues"
+  },
+  "homepage": "https://github.com/lazarofl/angular-calendarium#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-contrib-clean": "0.0.2",
+    "gulp-jshint": "^2.0.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0"
+  }
+}
