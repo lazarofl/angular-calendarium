@@ -1,1 +1,1 @@
-.date{width:50px;height:50px;border:1px solid #000;float:left;display:inline-block;cursor:pointer}.empty{background-color:gray;cursor:not-allowed}
+.calendarium .date,.calendarium .month-container .week-label{width:50px;height:50px;border:1px solid #000;float:left;display:inline-block}.calendarium .date{cursor:pointer}.calendarium .month-container{float:left;display:inline-block;clear:both}.calendarium .empty{background-color:gray;cursor:not-allowed}.calendarium .calendarium-header{clear:both}
