@@ -3,11 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Angular-calendarium example</title>
+	<link rel="stylesheet" href="../dist/css/angular-calendarium.css" />
 </head>
 <body ng-app="app" ng-controller="appController">
 	
-	<input type="text" ng-model="valor">
-	{{valor}}
 	<div>
 		<calendarium on-date-selected='dayClickEvent'></calendarium>
 	</div>

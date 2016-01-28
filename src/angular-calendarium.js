@@ -5,10 +5,12 @@
             formatDay: 'd',
             showWeeks: true,
             template:   ['<div class="calendarium">',
+                            '<button ng-click="previousMonth()" title="previous month" ><<</button>',
                             '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
+                            '<button ng-click="nextMonth()" title="next month" >>></button>',
                             '<div class="dates" ng-repeat="date in dates">',
-                                '<div ng-if="!isDate(date)" class="date empty"></div>',
-                                '<div ng-if="isDate(date)" class="date"><a ng-click="selectDate(date)">{{date.getDate()}}</a></div>',
+                                '<div ng-if="!isDate(date)" class="date empty">{{date.day}}</div>',
+                                '<div ng-click="selectDate(date)" ng-if="isDate(date)" class="date">{{date.getDate()}}</div>',
                             '</div>',
                         '</div>'].join(""),
             day_labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -33,8 +35,8 @@
                   }
                 }
 
-                for (var i = 0; i < totalDaysInMonth; i++) {
-                    days.push(i+1);
+                for (var i = 1; i <= totalDaysInMonth; i++) {
+                    days.push(i);
                 }
 
                 return {
@@ -60,32 +62,66 @@
                 link: function (scope) {
                     var onDateSelectedHandler = scope.onDateSelected();
 
-                    var dateIntervals = calendariumService.processDateIntervals(
-                        (scope.year === null || isNaN(scope.year)) ? new Date().getFullYear() : scope.year
-                        , (scope.month === null || isNaN(scope.month)) ? new Date().getMonth() : scope.month
-                        );
+                    scope._year = (scope.year === null || isNaN(scope.year)) ? new Date().getFullYear() : scope.year;
+                    scope._month = (scope.month === null || isNaN(scope.month)) ? new Date().getMonth() : scope.month;
 
-                    scope.dates = [];
+                    console.log(scope._year);
+                    console.log(scope._month);
+
                     scope.isDate = function(data){
                         return data instanceof Date;
                     };
-
-                    for (var i = 0; i < dateIntervals.days.length - 1; i++)
-                        scope.dates.push(new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), dateIntervals.days[i]));
-
-                    //insert null dates to adjust the weekdays position
-                    if(dateIntervals.firstDate.getDay() !== 0)
-                        for (var c = 0; c < dateIntervals.firstDate.getDay() - 1; c++) 
-                            scope.dates.unshift({day: c});
-
-                    scope.dates = scope.dates;
 
                     scope.selectDate = function (date) {
                         onDateSelectedHandler(date);
                     };
 
-                    scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
-                    scope.yearLabel = dateIntervals.firstDate.getFullYear();
+                    scope.previousMonth = function(){
+                        console.log(scope._month);
+                        if(scope._month === 0)
+                            scope._month = 11;
+                        else
+                            scope._month = scope._month-1;
+
+                        scope.render();
+                    };
+
+                    scope.nextMonth = function(){
+                        console.log(scope._month);
+                        if(scope._month === 11)
+                            scope._month = 0;
+                        else
+                            scope._month = scope._month+1;
+                    
+                        scope.render();
+                    };
+
+                    scope.render = function(){
+                        console.log('calls render');                  
+                        
+                        console.log(scope._year);
+                        console.log(scope._month);
+                        
+                        var dateIntervals = calendariumService.processDateIntervals(scope._year, scope._month);
+
+                        scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
+                        scope.yearLabel = dateIntervals.firstDate.getFullYear();
+      
+                        scope.dates = [];
+
+                        for (var i = 0; i < dateIntervals.days.length; i++)
+                            scope.dates.push(new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), dateIntervals.days[i]));
+
+                        //insert null dates to adjust the weekdays position
+                        if(dateIntervals.firstDate.getDay() !== 0)
+                            for (var c = 0; c < dateIntervals.firstDate.getDay(); c++) 
+                                scope.dates.unshift({day: c});
+
+                        scope.dates = scope.dates;
+                    };
+
+                    scope.render();
+
                 }
             };
 
