@@ -18,6 +18,46 @@ bower install angular-calendarium --save
 ```
 or download the latest version at [releases page](https://github.com/lazarofl/angular-calendarium/releases)
 
+add `calendarium` directive:
+```html
+...
+<body ng-app="app" ng-controller="appController">
+	
+	<div>
+		<calendarium></calendarium>
+	</div>
+
+	<script src="app.js"></script>
+</body>
+...
+```
+
+##on-date-selected attribute
+
+You can set a function from another controller using `on-date-selected` attribute:
+```html
+...
+<body ng-app="app" ng-controller="appController">
+	
+	<div>
+		<calendarium on-date-selected='handleDayClick'></calendarium>
+	</div>
+
+	<script src="app.js"></script>
+</body>
+...
+```
+
+```javascript
+angular.module('app', ['ngCalendarium'])
+	.controller('appController', ['$scope', function ($scope) {
+		$scope.handleDayClick = function(date){
+			alert(date);
+		};
+  }]);
+```
+
+
 ## Roadmap
 
 - [x] Navigate through the months using `previous` and `next` month buttons
