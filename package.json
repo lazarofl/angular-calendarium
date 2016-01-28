@@ -1,7 +1,7 @@
 {
   "name": "angular-calendarium",
   "version": "0.1.0",
-  "description": "A simple calendar component using angular directives",
+  "description": "A lightweight calendar component using angular directives",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/lazarofl/angular-calendarium.git"
@@ -12,7 +12,7 @@
     "directive"
   ],
   "author": "lazarofl",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/lazarofl/angular-calendarium/issues"
   },

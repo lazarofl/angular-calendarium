@@ -10,7 +10,7 @@ gulp.task('default', ['clean'], function () {
     			.pipe(jshint.reporter('jshint-stylish'))
     			.pipe(jshint.reporter('fail'))
     			.pipe(uglify())
-    			.pipe(gulp.dest('dist'));
+    			.pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('clean', function() {

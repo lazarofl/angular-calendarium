@@ -1,0 +1,31 @@
+{
+    "name": "angular-calendarium",
+    "version": "0.1.0",
+    "homepage": "https://github.com/lazarofl/angular-calendarium",
+    "authors": [
+        "lazarofl <lazaro.fl@gmail.com>"
+    ],
+    "description": "A lightweight calendar component using angular directives",
+    "main": [
+        "dist/js/angular-calendarium.js"
+    ],
+    "keywords": [
+        "angular",
+        "angularjs",
+        "directive",
+        "calendar"
+    ],
+    "dependencies": {
+        "angular": "~1.2"
+    },
+    "license": "MIT",
+    "ignore": [
+        "lib/",
+        "css/",
+        "src/",
+        "template/",
+        ".jshintrc",
+        "gruntfile.js",
+        "package.json"
+    ]
+}
