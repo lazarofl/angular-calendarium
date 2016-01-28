@@ -1,16 +1,22 @@
 (function () {
     'use strict';
-    angular.module('ngCalendario', [])
+    angular.module('ngCalendarium', [])
         .constant('calendarConfig', {
-            formatDay: 'd',
             showWeeks: true,
             template:   ['<div class="calendarium">',
-                            '<button ng-click="previousMonth()" title="previous month" ><<</button>',
-                            '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
-                            '<button ng-click="nextMonth()" title="next month" >>></button>',
-                            '<div class="dates" ng-repeat="date in dates">',
-                                '<div ng-if="!isDate(date)" class="date empty">{{date.day}}</div>',
-                                '<div ng-click="selectDate(date)" ng-if="isDate(date)" class="date">{{date.getDate()}}</div>',
+                            '<div class="calendarium-header">',
+                                '<button ng-click="previousMonth()" title="previous month" ><<</button>',
+                                '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
+                                '<button ng-click="nextMonth()" title="next month" >>></button>',
+                            '</div>',
+                            '<div class="month-container">',
+                                '<div class="week-labels" ng-if="showWeeks">', 
+                                    '<div class="week-label" ng-repeat="weekDay in weekDays">{{weekDay}}</div>',
+                                '</div>',
+                                '<div class="dates" ng-repeat="date in dates">',
+                                    '<div ng-if="!isDate(date)" class="date empty"></div>',
+                                    '<div ng-click="selectDate(date)" ng-if="isDate(date)" class="date">{{date.getDate()}}</div>',
+                                '</div>',
                             '</div>',
                         '</div>'].join(""),
             day_labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -64,9 +70,8 @@
 
                     scope._year = (scope.year === null || isNaN(scope.year)) ? new Date().getFullYear() : scope.year;
                     scope._month = (scope.month === null || isNaN(scope.month)) ? new Date().getMonth() : scope.month;
-
-                    console.log(scope._year);
-                    console.log(scope._month);
+                    scope.showWeeks = calendarConfig.showWeeks;
+                    scope.weekDays = calendarConfig.day_labels;
 
                     scope.isDate = function(data){
                         return data instanceof Date;
@@ -77,9 +82,10 @@
                     };
 
                     scope.previousMonth = function(){
-                        console.log(scope._month);
-                        if(scope._month === 0)
+                        if(scope._month === 0){
                             scope._month = 11;
+                            scope._year = scope._year-1;
+                        }
                         else
                             scope._month = scope._month-1;
 
@@ -87,9 +93,10 @@
                     };
 
                     scope.nextMonth = function(){
-                        console.log(scope._month);
-                        if(scope._month === 11)
+                        if(scope._month === 11){
                             scope._month = 0;
+                            scope._year = scope._year+1;
+                        }
                         else
                             scope._month = scope._month+1;
                     
@@ -97,11 +104,6 @@
                     };
 
                     scope.render = function(){
-                        console.log('calls render');                  
-                        
-                        console.log(scope._year);
-                        console.log(scope._month);
-                        
                         var dateIntervals = calendariumService.processDateIntervals(scope._year, scope._month);
 
                         scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
@@ -112,11 +114,19 @@
                         for (var i = 0; i < dateIntervals.days.length; i++)
                             scope.dates.push(new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), dateIntervals.days[i]));
 
-                        //insert null dates to adjust the weekdays position
+                        //insert null dates to adjust the weekdays position at the beginning
                         if(dateIntervals.firstDate.getDay() !== 0)
                             for (var c = 0; c < dateIntervals.firstDate.getDay(); c++) 
                                 scope.dates.unshift({day: c});
 
+                        //insert null dates to adjust the weekdays position at the end
+                        if(scope.dates.length % 7 !== 0)
+                        {
+                            var mod = scope.dates.length % 7;
+                            for (var m = 0; m < 7-mod; m++) 
+                                scope.dates.push({day: m});
+                        }
+                        
                         scope.dates = scope.dates;
                     };
 
