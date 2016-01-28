@@ -7,10 +7,10 @@
     ],
     "description": "A lightweight calendar component using angular directives",
     "main": [
-        "dist/js/angular-calendarium.js",
-        "dist/js/angular-calendarium.min.js",
-        "dist/css/angular-calendarium.css",
-        "dist/css/angular-calendarium.min.css"
+        "dist/angular-calendarium.js",
+        "dist/angular-calendarium.min.js",
+        "dist/angular-calendarium.css",
+        "dist/angular-calendarium.min.css"
     ],
     "keywords": [
         "angular",
@@ -24,11 +24,14 @@
     "license": "MIT",
     "ignore": [
         "lib/",
+        "example/",
         "css/",
         "src/",
         "template/",
         ".jshintrc",
         "gruntfile.js",
+        "gulpfile.js",
+        "gulpfile.js",
         "package.json"
     ]
 }

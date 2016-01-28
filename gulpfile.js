@@ -11,23 +11,23 @@ gulp.task('javascript', function () {
     			.pipe(jshint())
     			.pipe(jshint.reporter('jshint-stylish'))
     			.pipe(jshint.reporter('fail'))
-    			.pipe(gulp.dest('dist/js'))
+    			.pipe(gulp.dest('dist'))
     			.pipe(uglify())
 			    .pipe(rename(function(path) {
 			        path.basename += '.min';
 			    }))
-			    .pipe(gulp.dest('dist/js'));
+			    .pipe(gulp.dest('dist'));
 });
 
 // build the css
 gulp.task('styles', function () {
     return gulp.src(['css/angular-calendarium.css'])
-    			.pipe(gulp.dest('dist/css'))
+    			.pipe(gulp.dest('dist'))
     			.pipe(minifyCss({compatibility: 'ie8'}))
     			.pipe(rename(function(path) {
 			        path.basename += '.min';
 			    }))
-    			.pipe(gulp.dest('dist/css'));
+    			.pipe(gulp.dest('dist'));
 });
 
 gulp.task('clean', function() {
