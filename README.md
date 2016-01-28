@@ -6,7 +6,9 @@ A lightweight calendar component using angular directives
 
 ## Features
 
-- under implementation
+- [x] Navigate through the months using `previous` and `next` month buttons
+- [x] Add a `dayClick` callback using `directive attribute`
+- [x] Add a default `css` file
 
 # Getting started/How to use it
 
@@ -18,11 +20,12 @@ or download the latest version at [releases page](https://github.com/lazarofl/an
 
 ## Roadmap
 
-- Navigate through the months using `previous` and `next` month buttons
-- Add a `dayClick` callback using `directive attribute`
-- Add calendar captions support
-- Add i18n support
-- Add a default `css` file
+- [x] Navigate through the months using `previous` and `next` month buttons
+- [x] Add a `dayClick` callback using `directive attribute`
+- [x] Add a default `css` file
+- [ ] Load data from API to mark dates with a custom css and tooltip
+- [ ] Add calendar captions support
+- [ ] Add i18n support
 
 ## How to contribute?
 
