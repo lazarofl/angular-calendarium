@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular-calendarium example</title>
+</head>
+<body ng-app="app" ng-controller="appController">
+	
+	<input type="text" ng-model="valor">
+	{{valor}}
+	<div>
+		<calendarium on-date-selected='dayClickEvent'></calendarium>
+	</div>
+
+	<script src="../bower_components/angular/angular.min.js"></script>
+	<script src="../dist/js/angular-calendarium.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
