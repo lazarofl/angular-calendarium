@@ -7,7 +7,10 @@
     ],
     "description": "A lightweight calendar component using angular directives",
     "main": [
-        "dist/js/angular-calendarium.js"
+        "dist/js/angular-calendarium.js",
+        "dist/js/angular-calendarium.min.js",
+        "dist/css/angular-calendarium.css",
+        "dist/css/angular-calendarium.min.css"
     ],
     "keywords": [
         "angular",
