@@ -23,14 +23,12 @@
     },
     "license": "MIT",
     "ignore": [
-        "lib/",
+        "bower_components/",
+        "node_modules/",
         "example/",
         "css/",
         "src/",
-        "template/",
         ".jshintrc",
-        "gruntfile.js",
-        "gulpfile.js",
         "gulpfile.js",
         "package.json"
     ]

@@ -57,12 +57,12 @@
         .directive('calendarium', ['$parse', 'calendarConfig','calendariumService', function ($parse, calendarConfig, calendariumService) {
 
             return {
-                restrict: 'EA',
+                restrict: 'E',
                 replace: true,
                 scope: {
                     month: '@',                  
                     year: '@',
-                    onDateSelected:'&onDateSelected'               
+                    onDateSelected:'&'               
                 },
                 template: calendarConfig.template,
                 link: function (scope) {
