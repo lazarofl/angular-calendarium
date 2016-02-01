@@ -2,22 +2,21 @@
     'use strict';
     angular.module('ngCalendarium', [])
         .constant('calendarConfig', {
-            showWeeks: true,
             template:   ['<div class="calendarium">',
-                            '<div class="calendarium-header">',
-                                '<button ng-click="previousMonth()" title="previous month" ><<</button>',
+                            '<div class="header">',
+                                '<button class="previous" ng-click="previousMonth()" title="previous month" ><<</button>',
                                 '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
-                                '<button ng-click="nextMonth()" title="next month" >>></button>',
+                                '<button class="next" ng-click="nextMonth()" title="next month" >>></button>',
                             '</div>',
-                            '<div class="month-container">',
-                                '<div class="week-labels" ng-if="showWeeks">', 
-                                    '<div class="week-label" ng-repeat="weekDay in weekDays">{{weekDay}}</div>',
-                                '</div>',
-                                '<div class="dates" ng-repeat="date in dates">',
+                            '<ol class="day-names clear">',
+                    			'<li ng-repeat="weekDay in weekDays">{{weekDay}}</li>',
+                            '</o>',
+                            '<ol class="days">',
+                                '<li ng-repeat="date in dates">',
                                     '<div ng-if="!isDate(date)" class="date empty"></div>',
-                                    '<div ng-click="selectDate(date)" ng-if="isDate(date)" class="date">{{date.getDate()}}</div>',
-                                '</div>',
-                            '</div>',
+                                    '<div ng-if="isDate(date)" class="date" ng-click="selectDate(date)">{{date.getDate()}}</div>',
+                                '</li>',
+                            '</ol>',
                         '</div>'].join(""),
             day_labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             month_labels: ['January', 'February', 'March', 'April','May', 'June', 'July', 'August', 'September','October', 'November', 'December'],
@@ -70,7 +69,6 @@
 
                     scope._year = (scope.year === null || isNaN(scope.year)) ? new Date().getFullYear() : scope.year;
                     scope._month = (scope.month === null || isNaN(scope.month)) ? new Date().getMonth() : scope.month;
-                    scope.showWeeks = calendarConfig.showWeeks;
                     scope.weekDays = calendarConfig.day_labels;
 
                     scope.isDate = function(data){

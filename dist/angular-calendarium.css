@@ -1,31 +1,55 @@
-.calendarium .date {
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
-  float: left;
-  display: inline-block;
-  cursor: pointer;
+.calendarium 
+{
+  padding: 3em;
 }
 
-.calendarium .month-container {
+.calendarium ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.calendarium  ol li {
   float: left;
-  display: inline-block;
+  width: 14.28571%;
+}
+
+.calendarium .previous{
+    float: left; 
+    margin-right: 1em; 
+}
+
+.calendarium .next{
+    margin: 5 auto; 
+    float: left;  
+    margin-left: 1em; 
+}
+
+.calendarium .header h1{
+  float: left;
+  margin-top: 0;
+}
+
+.calendarium .clear{
+  display: block;
+  height: 0;
   clear: both;
 }
 
-.calendarium .month-container .week-label {
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
-  float: left;
-  display: inline-block;
+.calendarium .day-names {
+  border-bottom: 1px solid #eee;
+}
+.calendarium .day-names li {
+  text-transform: uppercase;
+  margin-bottom: .5em;
 }
 
-.calendarium .empty {
-  background-color: gray;
+.calendarium .days li .date {
+  border-bottom: 1px solid #eee;
+  min-height: 4em;
+  margin: .5em 0;
+}
+
+.calendarium .days li .empty {
   cursor: not-allowed;
-}
-
-.calendarium .calendarium-header{
-	clear: both;
 }
