@@ -22,13 +22,13 @@
             month_labels: ['January', 'February', 'March', 'April','May', 'June', 'July', 'August', 'September','October', 'November', 'December'],
             days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         })
-        .service('calendariumService', ['calendarConfig', function(calendarConfig){
+        .service('calendariumService', ['calendarConfig', '$http','$q', function(calendarConfig, $http, $q){
             
             var self = this;
 
-            self.processDateIntervals = function(year, month){
-
-                var firstDate = new Date(year, month, 1),
+            self.getDateIntervals = function(year, month){
+            	var firstDate = new Date(year, month, 1),
+            		lastDate,
                     totalDaysInMonth,
                     days = [];
 
@@ -44,11 +44,42 @@
                     days.push(i);
                 }
 
+                lastDate = new Date(year, month, days.length);
+
                 return {
                     firstWeekDate: firstDate.getDay(), // 0 = Sunday, 1 = Monday ....
                     firstDate: firstDate,
+                    lastDate: lastDate,
                     days: days
                 };
+            };
+
+            self.loadCalendarDates = function(url, year, month){
+            	var deferred = $q.defer();
+
+            	if(!url) {
+            		deferred.resolve(self.getDateIntervals(year, month));
+            		return deferred.promise;
+            	}
+
+        		var dateIntervals = self.getDateIntervals(year,month);
+
+        		return $http({
+				    url: url, 
+				    method: "GET",
+				    params: {
+				    	firstDate: dateIntervals.firstDate.toISOString(),
+				    	lastDate: dateIntervals.lastDate.toISOString()
+				    }
+			 	}).then(function (response) {
+			 		var result = angular.extend({
+			 			dates:  response.data
+			 		}, dateIntervals); //extend result, appending 'dates'
+
+        			return result;
+			  	}, function (response) {
+		 			throw response;
+			  	});
 
             };
 
@@ -70,6 +101,7 @@
 
                     scope._year = (scope.year === null || isNaN(scope.year)) ? new Date().getFullYear() : scope.year;
                     scope._month = (scope.month === null || isNaN(scope.month)) ? new Date().getMonth() : scope.month;
+
                     scope.weekDays = calendarConfig.day_labels;
 
                     scope.isDate = function(data){
@@ -105,30 +137,37 @@
                     };
 
                     scope.render = function(){
-                        var dateIntervals = calendariumService.processDateIntervals(scope._year, scope._month);
+                        var result = calendariumService.loadCalendarDates(scope.url, scope._year, scope._month);
 
-                        scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
-                        scope.yearLabel = dateIntervals.firstDate.getFullYear();
-      
-                        scope.dates = [];
+	                    result.then(function (dateIntervals){
 
-                        for (var i = 0; i < dateIntervals.days.length; i++)
-                            scope.dates.push(new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), dateIntervals.days[i]));
+		                        scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
+		                        scope.yearLabel = dateIntervals.firstDate.getFullYear();
+		      
+		                        scope.dates = [];
 
-                        //insert null dates to adjust the weekdays position at the beginning
-                        if(dateIntervals.firstDate.getDay() !== 0)
-                            for (var c = 0; c < dateIntervals.firstDate.getDay(); c++) 
-                                scope.dates.unshift({day: c});
+		                        for (var i = 0; i < dateIntervals.days.length; i++)
+		                            scope.dates.push(new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), dateIntervals.days[i]));
 
-                        //insert null dates to adjust the weekdays position at the end
-                        if(scope.dates.length % 7 !== 0)
-                        {
-                            var mod = scope.dates.length % 7;
-                            for (var m = 0; m < 7-mod; m++) 
-                                scope.dates.push({day: m});
-                        }
+		                        //insert null dates to adjust the weekdays position at the beginning
+		                        if(dateIntervals.firstDate.getDay() !== 0)
+		                            for (var c = 0; c < dateIntervals.firstDate.getDay(); c++) 
+		                                scope.dates.unshift({day: c});
+
+		                        //insert null dates to adjust the weekdays position at the end
+		                        if(scope.dates.length % 7 !== 0)
+		                        {
+		                            var mod = scope.dates.length % 7;
+		                            for (var m = 0; m < 7-mod; m++) 
+		                                scope.dates.push({day: m});
+		                        }
+		                        
+		                        scope.dates = scope.dates;
+
+	                    	}, function(response){
+	                    		throw response;
+	                    	});
                         
-                        scope.dates = scope.dates;
                     };
 
                     scope.render();
