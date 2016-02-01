@@ -53,3 +53,16 @@
 .calendarium .days li .empty {
   cursor: not-allowed;
 }
+
+.calendarium .days li .disabled{
+  cursor: not-allowed;
+  background-color: red;  
+}
+
+.calendarium .days li .gray{
+  background-color: gray;  
+}
+
+.calendarium .days li .red{
+  background-color: red;  
+}

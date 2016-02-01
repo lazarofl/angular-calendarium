@@ -12,9 +12,10 @@
                     			'<li ng-repeat="weekDay in weekDays">{{weekDay}}</li>',
                             '</o>',
                             '<ol class="days">',
-                                '<li ng-repeat="date in dates">',
-                                    '<div ng-if="!isDate(date)" class="date empty"></div>',
-                                    '<div ng-if="isDate(date)" class="date" ng-click="selectDate(date)">{{date.getDate()}}</div>',
+                                '<li ng-repeat="dateContainer in dateContainers" title="{{dateContainer.state.tooltip}}">',
+                                	'<div ng-if="dateContainer.state.disabled" class="date disabled" ng-class="dateContainer.state.className"></div>',
+                                    '<div ng-if="!dateContainer.state.disabled && !isDate(dateContainer.date)" class="date empty"></div>',
+                                    '<div ng-if="!dateContainer.state.disabled && isDate(dateContainer.date)" ng-class="dateContainer.state.className" class="date" ng-click="selectDate(dateContainer.date,dateContainer.state)">{{dateContainer.date.getDate()}}</div>',
                                 '</li>',
                             '</ol>',
                         '</div>'].join(""),
@@ -22,7 +23,10 @@
             month_labels: ['January', 'February', 'March', 'April','May', 'June', 'July', 'August', 'September','October', 'November', 'December'],
             days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         })
-        .service('calendariumService', ['calendarConfig', '$http','$q', function(calendarConfig, $http, $q){
+		.factory('_', ['$window', function($window) {
+		  	return $window._; // assumes underscore has already been loaded on the page
+		}])
+        .service('calendariumService', ['calendarConfig', '$http', '$q', function(calendarConfig, $http, $q){
             
             var self = this;
 
@@ -84,7 +88,7 @@
             };
 
         }])
-        .directive('calendarium', ['$parse', 'calendarConfig','calendariumService', function ($parse, calendarConfig, calendariumService) {
+        .directive('calendarium', ['$parse', 'calendarConfig','calendariumService', '_', function ($parse, calendarConfig, calendariumService, _) {
 
             return {
                 restrict: 'E',
@@ -108,9 +112,9 @@
                         return data instanceof Date;
                     };
 
-                    scope.selectDate = function (date) {
+                    scope.selectDate = function (date,state) {
                     	if(onDateSelectedHandler){
-                        	onDateSelectedHandler(date);
+                        	onDateSelectedHandler(date, state);
                     	}
                     };
 
@@ -142,28 +146,38 @@
 	                    result.then(function (dateIntervals){
 
 		                        scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
+		                       
 		                        scope.yearLabel = dateIntervals.firstDate.getFullYear();
 		      
-		                        scope.dates = [];
+		                        scope.dateContainers = [];
+								_.each(dateIntervals.days, function(day) {
+		                        	var calendarDate = {
+		                        		date: new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), day),
+		                        		state: _.findWhere(dateIntervals.dates, {day: day}) || { disabled: false }
+		                        	};
+		                           
+		                            scope.dateContainers.push(calendarDate);
+		                        });
 
-		                        for (var i = 0; i < dateIntervals.days.length; i++)
-		                            scope.dates.push(new Date(dateIntervals.firstDate.getFullYear(), dateIntervals.firstDate.getMonth(), dateIntervals.days[i]));
-
-		                        //insert null dates to adjust the weekdays position at the beginning
+		                        //insert null dateContainers to adjust the weekdays position at the beginning
 		                        if(dateIntervals.firstDate.getDay() !== 0)
 		                            for (var c = 0; c < dateIntervals.firstDate.getDay(); c++) 
-		                                scope.dates.unshift({day: c});
+		                                scope.dateContainers.unshift({
+			                        		date: c,
+			                        		state: { disabled: false }
+			                        	});
 
-		                        //insert null dates to adjust the weekdays position at the end
-		                        if(scope.dates.length % 7 !== 0)
+		                        //insert null dateContainers to adjust the weekdays position at the end
+		                        if(scope.dateContainers.length % 7 !== 0)
 		                        {
-		                            var mod = scope.dates.length % 7;
+		                            var mod = scope.dateContainers.length % 7;
 		                            for (var m = 0; m < 7-mod; m++) 
-		                                scope.dates.push({day: m});
+		                                scope.dateContainers.push({
+			                        		date: m,
+			                        		state: { disabled: false }
+			                        	});
 		                        }
 		                        
-		                        scope.dates = scope.dates;
-
 	                    	}, function(response){
 	                    		throw response;
 	                    	});
