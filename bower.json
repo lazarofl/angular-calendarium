@@ -1,35 +1,36 @@
 {
-    "name": "angular-calendarium",
-    "version": "0.1.0",
-    "homepage": "https://github.com/lazarofl/angular-calendarium",
-    "authors": [
-        "lazarofl <lazaro.fl@gmail.com>"
-    ],
-    "description": "A lightweight calendar component using angular directives",
-    "main": [
-        "dist/angular-calendarium.js",
-        "dist/angular-calendarium.min.js",
-        "dist/angular-calendarium.css",
-        "dist/angular-calendarium.min.css"
-    ],
-    "keywords": [
-        "angular",
-        "angularjs",
-        "directive",
-        "calendar"
-    ],
-    "dependencies": {
-        "angular": "~1.2"
-    },
-    "license": "MIT",
-    "ignore": [
-        "bower_components/",
-        "node_modules/",
-        "example/",
-        "css/",
-        "src/",
-        ".jshintrc",
-        "gulpfile.js",
-        "package.json"
-    ]
+  "name": "angular-calendarium",
+  "version": "0.1.0",
+  "homepage": "https://github.com/lazarofl/angular-calendarium",
+  "authors": [
+    "lazarofl <lazaro.fl@gmail.com>"
+  ],
+  "description": "A lightweight calendar component using angular directives",
+  "main": [
+    "dist/angular-calendarium.js",
+    "dist/angular-calendarium.min.js",
+    "dist/angular-calendarium.css",
+    "dist/angular-calendarium.min.css"
+  ],
+  "keywords": [
+    "angular",
+    "angularjs",
+    "directive",
+    "calendar"
+  ],
+  "dependencies": {
+    "angular": "~1.2",
+    "underscore": "~1.8.3"
+  },
+  "license": "MIT",
+  "ignore": [
+    "bower_components/",
+    "node_modules/",
+    "example/",
+    "css/",
+    "src/",
+    ".jshintrc",
+    "gulpfile.js",
+    "package.json"
+  ]
 }
