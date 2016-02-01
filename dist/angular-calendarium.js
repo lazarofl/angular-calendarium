@@ -61,7 +61,8 @@
                 scope: {
                     month: '@',                  
                     year: '@',
-                    onDateSelected:'&'               
+                    onDateSelected:'&',
+                    url: '@'
                 },
                 template: calendarConfig.template,
                 link: function (scope) {
@@ -76,7 +77,9 @@
                     };
 
                     scope.selectDate = function (date) {
-                        onDateSelectedHandler(date);
+                    	if(onDateSelectedHandler){
+                        	onDateSelectedHandler(date);
+                    	}
                     };
 
                     scope.previousMonth = function(){
