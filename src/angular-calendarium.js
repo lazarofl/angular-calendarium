@@ -2,23 +2,28 @@
     'use strict';
     angular.module('ngCalendarium', [])
         .constant('calendarConfig', {
-            template:   ['<div class="calendarium">',
-                            '<div class="header">',
-                                '<button class="previous" ng-click="previousMonth()" title="previous month" ><<</button>',
-                                '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
-                                '<button class="next" ng-click="nextMonth()" title="next month" >>></button>',
-                            '</div>',
-                            '<ol class="day-names clear">',
-                    			'<li ng-repeat="weekDay in weekDays">{{weekDay}}</li>',
-                            '</o>',
-                            '<ol class="days">',
-                                '<li ng-repeat="dateContainer in dateContainers" title="{{dateContainer.state.tooltip}}">',
-                                	'<div ng-if="dateContainer.state.disabled" class="date disabled" ng-class="dateContainer.state.className"></div>',
-                                    '<div ng-if="!dateContainer.state.disabled && !isDate(dateContainer.date)" class="date empty"></div>',
-                                    '<div ng-if="!dateContainer.state.disabled && isDate(dateContainer.date)" ng-class="dateContainer.state.className" class="date" ng-click="selectDate(dateContainer.date,dateContainer.state)">{{dateContainer.date.getDate()}}</div>',
-                                '</li>',
-                            '</ol>',
-                        '</div>'].join(""),
+            template:   ['<div>',
+            				'<div class="calendarium" ng-hide="fetchingData">',
+	                            '<div class="header">',
+	                                '<button class="previous" ng-click="previousMonth()" title="previous month" ><<</button>',
+	                                '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
+	                                '<button class="next" ng-click="nextMonth()" title="next month" >>></button>',
+	                            '</div>',
+	                            '<ol class="day-names clear">',
+	                    			'<li ng-repeat="weekDay in weekDays">{{weekDay}}</li>',
+	                            '</o>',
+	                            '<ol class="days">',
+	                                '<li ng-repeat="dateContainer in dateContainers" title="{{dateContainer.state.tooltip}}">',
+	                                	'<div ng-if="dateContainer.state.disabled" class="date disabled" ng-class="dateContainer.state.className">{{dateContainer.date.getDate()}}</div>',
+	                                    '<div ng-if="!dateContainer.state.disabled && !isDate(dateContainer.date)" class="date empty"></div>',
+	                                    '<div ng-if="!dateContainer.state.disabled && isDate(dateContainer.date)" ng-class="dateContainer.state.className" class="date" ng-click="selectDate(dateContainer.date,dateContainer.state)">{{dateContainer.date.getDate()}}</div>',
+	                                '</li>',
+	                            '</ol>',
+	                        '</div>',
+	                        '<div ng-show="fetchingData">',
+	                        	'<div>fetching data...</div>',
+	                        '</div>',
+                        '<div>'].join(""),
             day_labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             month_labels: ['January', 'February', 'March', 'April','May', 'June', 'July', 'August', 'September','October', 'November', 'December'],
             days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -58,12 +63,12 @@
                 };
             };
 
-            self.loadCalendarDates = function(url, year, month){
+            self.loadCalendarDates = function(url, year, month, params){
             	var deferred = $q.defer();
 
             	if(!url) {
             		deferred.resolve(self.getDateIntervals(year, month));
-            		return deferred.promise;
+            		return deferred.promise();
             	}
 
         		var dateIntervals = self.getDateIntervals(year,month);
@@ -71,10 +76,10 @@
         		return $http({
 				    url: url, 
 				    method: "GET",
-				    params: {
+				    params: angular.extend({
 				    	firstDate: dateIntervals.firstDate.toISOString(),
 				    	lastDate: dateIntervals.lastDate.toISOString()
-				    }
+				    }, params || {})
 			 	}).then(function (response) {
 			 		var result = angular.extend({
 			 			dates:  response.data
@@ -84,7 +89,6 @@
 			  	}, function (response) {
 		 			throw response;
 			  	});
-
             };
 
         }])
@@ -97,7 +101,8 @@
                     month: '@',                  
                     year: '@',
                     onDateSelected:'&',
-                    url: '@'
+                    url: '@',
+                    params: '='
                 },
                 template: calendarConfig.template,
                 link: function (scope) {
@@ -141,9 +146,10 @@
                     };
 
                     scope.render = function(){
-                        var result = calendariumService.loadCalendarDates(scope.url, scope._year, scope._month);
+                    	scope.fetchingData = true;
 
-	                    result.then(function (dateIntervals){
+                        calendariumService.loadCalendarDates(scope.url, scope._year, scope._month, scope.params)
+                        	.then(function (dateIntervals){
 
 		                        scope.monthLabel = calendarConfig.month_labels[dateIntervals.firstDate.getMonth()];
 		                       
@@ -178,7 +184,10 @@
 			                        	});
 		                        }
 		                        
+                    			scope.fetchingData = false;
+
 	                    	}, function(response){
+                    			scope.fetchingData = false;
 	                    		throw response;
 	                    	});
                         

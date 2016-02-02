@@ -4,4 +4,8 @@ angular.module('app', ['ngCalendarium'])
 			alert(date);
 			alert(state);
 		};
+
+		$scope.params = {
+			eventId: 1
+		};
     }]);
