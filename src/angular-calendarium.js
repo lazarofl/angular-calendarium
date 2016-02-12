@@ -2,17 +2,17 @@
     'use strict';
     angular.module('ngCalendarium', [])
         .constant('calendarConfig', {
-            template:   ['<div>',
+            template:   ['<div class="calendarium-container">',
             				'<div class="calendarium" ng-hide="fetchingData">',
 	                            '<div class="header">',
 	                                '<button class="previous" ng-click="previousMonth()" title="previous month" ><<</button>',
 	                                '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
 	                                '<button class="next" ng-click="nextMonth()" title="next month" >>></button>',
 	                            '</div>',
-	                            '<ol class="day-names clear">',
-	                    			'<li ng-repeat="weekDay in weekDays">{{weekDay}}</li>',
+	                            '<ol class="calendarium-day-names clear">',
+	                    			'<li ng-repeat="weekDay in weekDays">{{weekDay[day_label]}}</li>',
 	                            '</o>',
-	                            '<ol class="days">',
+	                            '<ol class="calendarium-days">',
 	                                '<li ng-repeat="dateContainer in dateContainers" title="{{dateContainer.state.tooltip}}">',
 	                                	'<div ng-if="dateContainer.state.disabled" class="date disabled" ng-class="dateContainer.state.className">{{dateContainer.date.getDate()}}</div>',
 	                                    '<div ng-if="!dateContainer.state.disabled && !isDate(dateContainer.date)" class="date empty"></div>',
@@ -20,11 +20,48 @@
 	                                '</li>',
 	                            '</ol>',
 	                        '</div>',
-	                        '<div ng-show="fetchingData">',
+	                        '<div class="loading" ng-show="fetchingData">',
 	                        	'<div>fetching data...</div>',
 	                        '</div>',
                         '<div>'].join(""),
-            day_labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            default_day_label: 'abbr',
+            day_labels: [   
+                            {
+                                full: 'Sunday',
+                                day: 'Sun',
+                                abbr: 'S'
+                            },
+                            {
+                                full: 'Monday',
+                                day: 'Mon',
+                                abbr: 'M'
+                            },
+                            {
+                                full: 'Tuesday',
+                                day: 'Tue',
+                                abbr: 'T'
+                            },
+                            {
+                                full: 'Wednesday',
+                                day: 'Wed',
+                                abbr: 'W'
+                            },
+                            {
+                                full: 'Thursday',
+                                day: 'Thu',
+                                abbr: 'T'
+                            },
+                            {
+                                full: 'Friday',
+                                day: 'Fri',
+                                abbr: 'F'
+                            },
+                            {
+                                full: 'Saturday',
+                                day: 'Sat',
+                                abbr: 'S'
+                            }
+                        ],
             month_labels: ['January', 'February', 'March', 'April','May', 'June', 'July', 'August', 'September','October', 'November', 'December'],
             days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         })
@@ -112,6 +149,7 @@
                     scope._month = (scope.month === null || isNaN(scope.month)) ? new Date().getMonth() : scope.month;
 
                     scope.weekDays = calendarConfig.day_labels;
+                    scope.day_label = calendarConfig.default_day_label;
 
                     scope.isDate = function(data){
                         return data instanceof Date;
