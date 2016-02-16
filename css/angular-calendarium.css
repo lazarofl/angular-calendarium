@@ -1,6 +1,36 @@
-.calendarium 
+@import url(http://fonts.googleapis.com/css?family=Quicksand);
+
+
+.clearfix:after, .calendarium ol:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.calendarium-container
 {
-  padding: 3em;
+  
+}
+
+.calendarium-container .calendarium {
+  padding: 1em;
+  border-radius: 10px;
+}
+.calendarium-container .loading{
+  border: 1px solid black;
+}
+
+.calendarium .header{
+  margin-top: 0;
+  font-weight: normal;
+  font-size: 1em;
+  color: #6EB590;
 }
 
 .calendarium ol {
@@ -13,56 +43,80 @@
   float: left;
   width: 14.28571%;
 }
+.calendarium  ol li > div:after {
+  content: ".";
+  visibility: hidden;
+}
 
 .calendarium .previous{
-    float: left; 
     margin-right: 1em; 
 }
 
 .calendarium .next{
-    margin: 5 auto; 
-    float: left;  
     margin-left: 1em; 
 }
 
-.calendarium .header h1{
-  float: left;
-  margin-top: 0;
-}
-
-.calendarium .clear{
+.calendarium .clear:after, .calendarium ol:after{
+  content: ".";
   display: block;
   height: 0;
   clear: both;
+  visibility: hidden;
 }
 
-.calendarium .day-names {
-  border-bottom: 1px solid #eee;
-}
-.calendarium .day-names li {
+.calendarium .calendarium-day-names li {
   text-transform: uppercase;
   margin-bottom: .5em;
 }
 
-.calendarium .days li .date {
-  border-bottom: 1px solid #eee;
+.calendarium-days li{
   min-height: 4em;
+}
+
+.calendarium-days li .date {
   margin: .5em 0;
 }
 
-.calendarium .days li .empty {
+.calendarium-days li .empty {
   cursor: not-allowed;
 }
 
-.calendarium .days li .disabled{
+.calendarium-days li .disabled{
   cursor: not-allowed;
-  background-color: red;  
+  background: red;  
+  font-size: .75em;
+  padding: 0 .75em;
+  line-height: 1.5em;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 1em;
+  margin-bottom: 1px;  
 }
 
-.calendarium .days li .gray{
-  background-color: gray;  
+.calendarium-days li .gray{
+  background: gray;  
+  font-size: .75em;
+  padding: 0 .75em;
+  line-height: 1.5em;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 1em;
+  margin-bottom: 1px;
 }
 
-.calendarium .days li .red{
-  background-color: red;  
+.calendarium-days li .red{
+  background: red;  
+  font-size: .75em;
+  padding: 0 .75em;
+  line-height: 1.5em;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 1em;
+  margin-bottom: 1px; 
 }
