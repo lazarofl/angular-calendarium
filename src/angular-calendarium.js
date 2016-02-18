@@ -2,13 +2,15 @@
     'use strict';
 
     var _template = ['<div class="calendarium-container">',
-                            '<div class="calendarium" ng-hide="fetchingData">',
+                            '<div class="calendarium" ng-hide="loading">',
                                 '<div class="header">',
-                                    '<button class="previous" ng-click="previousMonth()" title="previous month" ><<</button>',
-                                    '<h1>{{monthLabel}}/{{yearLabel}}</h1>',
-                                    '<button class="next" ng-click="nextMonth()" title="next month" >>></button>',
+                                    '<div class="container">',
+                                        '<button class="previous" ng-click="previousMonth()" title="previous month" ><</button>',
+                                        '<div>{{monthLabel}} / {{yearLabel}}</div>',
+                                        '<button class="next" ng-click="nextMonth()" title="next month">></button>',
+                                    '</div>',
                                 '</div>',
-                                '<ol class="calendarium-day-names clear">',
+                                '<ol class="calendarium-day-names">',
                                     '<li ng-repeat="weekDay in weekDays">{{weekDay[day_label]}}</li>',
                                 '</o>',
                                 '<ol class="calendarium-days">',
@@ -19,8 +21,10 @@
                                     '</li>',
                                 '</ol>',
                             '</div>',
-                            '<div class="loading" ng-show="fetchingData">',
-                                '<div>fetching data...</div>',
+                            '<div class="showbox" ng-show="loading">',
+                                '<div class="loading">',
+                                    'loading...',
+                                '</div>',
                             '</div>',
                         '<div>'].join("");
 
@@ -187,7 +191,7 @@
                     };
 
                     scope.render = function(){
-                    	scope.fetchingData = true;
+                    	scope.loading = true;
 
                         calendariumService.loadCalendarDates(scope.url, scope._year, scope._month, scope.params)
                         	.then(function (dateIntervals){
@@ -225,10 +229,10 @@
 			                        	});
 		                        }
 		                        
-                    			scope.fetchingData = false;
+                    			scope.loading = false;
 
 	                    	}, function(response){
-                    			scope.fetchingData = false;
+                    			scope.loading = false;
 	                    		throw response;
 	                    	});
                         

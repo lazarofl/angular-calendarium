@@ -1,5 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=Quicksand);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
+body{
+  font-family: 'Source Sans Pro', sans-serif;
+}
 
 .clearfix:after, .calendarium ol:after {
   content: ".";
@@ -22,21 +25,47 @@
   padding: 1em;
   border-radius: 10px;
 }
-.calendarium-container .loading{
-  border: 1px solid black;
-}
 
 .calendarium .header{
-  margin-top: 0;
-  font-weight: normal;
-  font-size: 1em;
-  color: #6EB590;
+  width: 250px;
+  position: relative;
+  margin: 0 auto;
+  text-transform: uppercase;
+  min-height: 4em;
+}
+
+.calendarium button{
+  background:none!important;
+  border:none; 
+  padding:0!important;
+  font: inherit;
+  cursor: pointer;
+  color: #B10000;
+  font-weight: bold;
+}
+
+.calendarium .header .previous{
+  float: left;  
+  margin: 10px;
+}
+
+.calendarium .header div{
+  float: left;  
+  font-size: 16px;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.calendarium .header .next{
+  float: right;  
+  margin: 10px;
 }
 
 .calendarium ol {
   list-style: none;
   margin: 0;
   padding: 0;
+  clear: both;
 }
 
 .calendarium  ol li {
@@ -64,17 +93,28 @@
   visibility: hidden;
 }
 
-.calendarium .calendarium-day-names li {
+.calendarium .calendarium-day-names > li {
   text-transform: uppercase;
   margin-bottom: .5em;
+  color: #B10000;
+  font-weight: bold;
+}
+
+.calendarium li{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .calendarium-days li{
   min-height: 4em;
+  font-weight: bold;
 }
 
 .calendarium-days li .date {
   margin: .5em 0;
+  cursor: pointer;
 }
 
 .calendarium-days li .empty {
@@ -83,40 +123,15 @@
 
 .calendarium-days li .disabled{
   cursor: not-allowed;
-  background: red;  
-  font-size: .75em;
-  padding: 0 .75em;
-  line-height: 1.5em;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-radius: 1em;
-  margin-bottom: 1px;  
+  color: #c3c3c3;  
 }
 
-.calendarium-days li .gray{
-  background: gray;  
-  font-size: .75em;
-  padding: 0 .75em;
-  line-height: 1.5em;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-radius: 1em;
-  margin-bottom: 1px;
+.calendarium-days li .blue{
+  color: blue;
+  font-weight: bold;
 }
 
 .calendarium-days li .red{
-  background: red;  
-  font-size: .75em;
-  padding: 0 .75em;
-  line-height: 1.5em;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-radius: 1em;
-  margin-bottom: 1px; 
+  color: red;
+  font-weight: bold;
 }
