@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular-calendarium example</title>
+	<link rel="stylesheet" href="../dist/angular-calendarium.css" />
+</head>
+<body ng-app="app" ng-controller="appController">
+	
+	<div>
+		<calendarium on-date-selected='dayClickEvent' params='params' url="http://www.json-generator.com/api/json/get/camcmXGyUO?indent=2"></calendarium>
+	</div>
+
+	<div>
+		Selected date: <strong><pre>{{selectedDate}}</pre></strong>
+	</div>
+	<div>
+		Selected state: <strong><pre>{{selectedState | json:4}}</pre></strong>
+	</div>
+
+	<script src="../bower_components/underscore/underscore-min.js"></script>
+	<script src="../bower_components/angular/angular.min.js"></script>
+	<script src="../dist/angular-calendarium.js"></script>
+	<script src="example.js"></script>
+</body>
+</html>
