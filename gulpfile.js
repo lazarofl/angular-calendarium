@@ -3,7 +3,8 @@ var gulp = require('gulp'),
 	clean = require('gulp-contrib-clean'),
 	uglify = require('gulp-uglify'),
 	minifyCss = require('gulp-minify-css'),
-	rename = require("gulp-rename");
+	rename = require("gulp-rename"),
+	autoprefixer = require('gulp-autoprefixer');
 
 // build the main source into the min file 
 gulp.task('javascript', function () {
@@ -22,6 +23,10 @@ gulp.task('javascript', function () {
 // build the css
 gulp.task('styles', function () {
     return gulp.src(['css/angular-calendarium.css'])
+    			.pipe(autoprefixer({
+					browsers: ['last 3 versions'],
+					cascade: false
+				}))
     			.pipe(gulp.dest('dist'))
     			.pipe(minifyCss({compatibility: 'ie8'}))
     			.pipe(rename(function(path) {
