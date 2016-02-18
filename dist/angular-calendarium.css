@@ -1,0 +1,143 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+body{
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.clearfix:after, .calendarium ol:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.calendarium-container
+{
+  
+}
+
+.calendarium-container .calendarium {
+  padding: 1em;
+  border-radius: 10px;
+}
+
+.calendarium .header{
+  width: 250px;
+  position: relative;
+  margin: 0 auto;
+  text-transform: uppercase;
+  min-height: 4em;
+}
+
+.calendarium button{
+  background:none!important;
+  border:none; 
+  padding:0!important;
+  font: inherit;
+  cursor: pointer;
+  color: #B10000;
+  font-weight: bold;
+}
+
+.calendarium .header .previous{
+  float: left;  
+  margin: 10px;
+}
+
+.calendarium .header div{
+  float: left;  
+  font-size: 16px;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.calendarium .header .next{
+  float: right;  
+  margin: 10px;
+}
+
+.calendarium ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  clear: both;
+}
+
+.calendarium  ol li {
+  float: left;
+  width: 14.28571%;
+}
+.calendarium  ol li > div:after {
+  content: ".";
+  visibility: hidden;
+}
+
+.calendarium .previous{
+    margin-right: 1em; 
+}
+
+.calendarium .next{
+    margin-left: 1em; 
+}
+
+.calendarium .clear:after, .calendarium ol:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.calendarium .calendarium-day-names > li {
+  text-transform: uppercase;
+  margin-bottom: .5em;
+  color: #B10000;
+  font-weight: bold;
+}
+
+.calendarium li{
+  text-align: center;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.calendarium-days li{
+  min-height: 4em;
+  font-weight: bold;
+}
+
+.calendarium-days li .date {
+  margin: .5em 0;
+  cursor: pointer;
+}
+
+.calendarium-days li .empty {
+  cursor: not-allowed;
+}
+
+.calendarium-days li .disabled{
+  cursor: not-allowed;
+  color: #c3c3c3;  
+}
+
+.calendarium-days li .blue{
+  color: blue;
+  font-weight: bold;
+}
+
+.calendarium-days li .red{
+  color: red;
+  font-weight: bold;
+}
