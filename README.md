@@ -33,7 +33,22 @@ add `calendarium` directive:
 ...
 ```
 
-##on-date-selected attribute
+## Month and year initialization
+
+`angular-calendarium` uses current date by default, but you can change it passing __year__ and __month__ as attribute parameters:
+
+```html
+<body ng-app="app" ng-controller="appController">
+	
+	<div>
+		<!-- will render January / 2020 -->
+		<calendarium year='2020' month='0'></calendarium>
+	</div>
+
+</body>
+```
+
+## on-date-selected attribute
 
 You can set a function from another controller using `on-date-selected` attribute:
 ```html
